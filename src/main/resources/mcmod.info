@@ -1,0 +1,12 @@
+[
+{
+  "modid": "ModularEquipment",
+  "name": "ModularEquipment",
+  "description": "A small utility mod to allow adding of equipments from json config."
+  "version": ${version},
+  "authorList": ["WeAthFolD"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": []
+}
+]
