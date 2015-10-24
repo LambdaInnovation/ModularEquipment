@@ -63,6 +63,8 @@ build/
 .classpath
 .settings/
 
+eclipse/
+
 
 # Custom
 # src/main/resources/assets/academy/sounds/media/
