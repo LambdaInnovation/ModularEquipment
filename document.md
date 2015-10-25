@@ -98,9 +98,12 @@ type指示了该物品的类型（剑，铲子，盔甲，……）。某些类�
 添加贴图和语言文件的说明
 ---
 
-语言文件建议在.minecraft/mods文件夹中加入相应lang。MC会自动加载。(/assets/<modid>/lang/[lang].lang)
+建议通过资源包的形式进行贴图和语言文件的添加。
 
-贴图文件建议在.minecraft/mods文件夹中加入相应贴图。(/assets/<modid>/textures/xxxxx.lang)
+在资源包中按照如下形式放置贴图和语言文件：
+
+* 贴图：`assets/<modid>/textures/items/*.png`
+* 语言：`assets/<modid>/lang/*.lang`
 
 
 配置文件示例

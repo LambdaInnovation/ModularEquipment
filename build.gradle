@@ -17,6 +17,9 @@ buildscript {
 
 apply plugin: 'forge'
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 version = "0.1"
 group= "cn.modularequipment" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ModularEquipment"
@@ -40,6 +43,10 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
 }
 
 processResources
