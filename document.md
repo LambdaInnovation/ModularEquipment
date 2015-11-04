@@ -113,7 +113,7 @@ type指示了该物品的类型（剑，铲子，盔甲，……）。某些类�
 
 注意
 
-* 根据mc的盔甲贴图绘制规则，`[armorTexture]_0.png`是除了裤子的其他贴图，`[armorTexture]_1.png`是裤子的贴图。
+* 根据mc的盔甲模型贴图绘制规则，`[armorTexture]_0.png`是除了裤子的其他模型贴图，`[armorTexture]_1.png`是裤子的模型贴图。
 * `[texture]_0123`分别是头盔、胸甲、裤子、鞋子的贴图路径。
 
 
@@ -143,7 +143,11 @@ type指示了该物品的类型（剑，铲子，盔甲，……）。某些类�
 	"name": "stupid_pickaxe",
 	"type": "pickaxe",
 	"toolClass": "wood",
-	"texture": "diamond_pickaxe"
+	"texture": "diamond_pickaxe",
+	"fp_transform" {
+		"scale": 2.0,
+		"offset": [2, 3, 3]
+	}
 },
 {
 	"name": "some_armor",

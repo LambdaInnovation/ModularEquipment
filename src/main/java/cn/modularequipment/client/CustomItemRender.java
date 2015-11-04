@@ -12,8 +12,6 @@
  */
 package cn.modularequipment.client;
 
-import static cn.lambdalib.util.generic.VecUtils.vec;
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -99,6 +97,10 @@ public class CustomItemRender implements IItemRenderer {
 	private void addVertex(Vec3 vec, double u, double v) {
 		Tessellator t = Tessellator.instance;
 		t.addVertexWithUV(vec.xCoord, vec.yCoord, vec.zCoord, u, v);
+	}
+	
+	static Vec3 vec(double x, double y, double z) {
+		return Vec3.createVectorHelper(x, y, z);
 	}
 	
 	private void drawEquippedItem(double w, ResourceLocation front, ResourceLocation back, 
