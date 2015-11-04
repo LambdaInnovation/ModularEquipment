@@ -24,8 +24,9 @@ public class CustomArmor extends ItemArmor {
 
 	final String texture;
 	
-	public CustomArmor(ArmorMaterial material, String _texture, int armorType) {
+	public CustomArmor(ArmorMaterial material, String icon, String _texture, int armorType) {
 		super(material, 0, armorType);
+		setTextureName(icon + "_" + armorType);
 		texture = _texture;
 	}
 	

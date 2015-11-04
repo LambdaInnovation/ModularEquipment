@@ -115,9 +115,10 @@ public class ModularEquipment {
 				case "armor":
 					tab = CreativeTabs.tabCombat;
 					for(int i = 0; i < 4; ++i) {
-						toreg.add(new CustomArmor(armorMat(p.armorClass), 
-								p.texture == null ? p.texture : p.name, 
-								i));
+						String texture = p.texture == null ? p.texture : p.name;
+						String armorTexture = p.armorTexture == null ? p.armorTexture : p.name;
+						CustomArmor ca = new CustomArmor(armorMat(p.armorClass), texture, armorTexture, i);
+						toreg.add(ca);
 					}
 					break;
 				default:
@@ -182,8 +183,11 @@ public class ModularEquipment {
 	private void procSingle(Item item, String id, CreativeTabs tab, ItemProperty p) {
 		item.setUnlocalizedName(id);
 		item.setCreativeTab(tab);
-		if(p.texture != null)
-			item.setTextureName(p.texture);
+		if(p.texture != null) {
+			if(!p.type.equals("armor")) {
+				item.setTextureName(p.texture);
+			}
+		}
 		GameRegistry.registerItem(item, id);
 		log.info("Registered item " + p.name + "/" + item + "/" + item.getCreativeTab());
 	}

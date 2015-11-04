@@ -11,7 +11,8 @@ public class ItemProperty {
 		toolClass = "wood",
 		armorClass = "wood",
 		creativeTab = null,
-		texture = null;
+		texture = null,
+		armorTexture = null;
 	
 	public Boolean full3D;
 	public Transform fp_transform, tp_transform;
