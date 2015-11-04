@@ -28,10 +28,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 
+import cn.modularequipment.client.CustomItemRender;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -41,11 +45,12 @@ import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemSword;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 /**
  * @author WeAthFolD
  */
-@Mod(modid = "modular-equipment", name = "ModularEquipment", version = "0.1")
+@Mod(modid = "modular-equipment", name = "ModularEquipment", version = "0.11")
 public class ModularEquipment {
 	
 	public static final Logger log = LogManager.getLogger("ModularEquipment");
@@ -75,6 +80,9 @@ public class ModularEquipment {
 			JsonArray elem = gson.fromJson(IOUtils.toString(new FileInputStream(file)), JsonArray.class);
 			ItemProperty[] properties = gson.fromJson(elem, ItemProperty[].class);
 			ItemArmor armor;
+			
+			boolean client = FMLCommonHandler.instance().getSide() == Side.CLIENT;
+			
 			for(ItemProperty p : properties) {
 				Item item = null;
 				List<Item> toreg = new ArrayList();
@@ -123,6 +131,10 @@ public class ModularEquipment {
 						err("Invalid cct name " + p.creativeTab);
 				}
 				
+				if(client) {
+					loadClient(p, item);
+				}
+				
 				if(toreg.isEmpty()) {
 					toreg.add(item);
 				}
@@ -131,6 +143,21 @@ public class ModularEquipment {
 			}
 		} catch(Exception e) {
 			log.error("Error loading info from config", e);
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private void loadClient(ItemProperty p, Item item) {
+		if(p.full3D != null && p.full3D) {
+			item.setFull3D();
+		}
+		
+		if(p.fp_transform != null || p.tp_transform != null) {
+			log.info("Registered custom renderer for " + p.name);
+			CustomItemRender renderer = new CustomItemRender();
+			renderer.fp = p.fp_transform;
+			renderer.tp = p.tp_transform;
+			MinecraftForgeClient.registerItemRenderer(item, renderer);
 		}
 	}
 	

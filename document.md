@@ -53,6 +53,25 @@ creativeTab属性指示了该物品所属的创造模式物品栏。默认情况
 * "combat"
 * "brewing"
 * "materials"
+
+渲染属性
+---
+
+可以一定限度的改变物品的渲染效果。
+
+"full3D": 设置为true则让物品以大物品类型显示。
+
+第一人称和第三人称的变换参数则可以如下编写：
+```
+"tp_transform": {
+	"offset": [dx, dy, dz] // 第三人称的偏移量
+	"scale": 2.0 // 第三人称缩放度
+},
+"fp_transform": {
+	"offset": [dx, dy, dz] // 第一人称的偏移量
+	"scale": 2.0 // 第一人称缩防度
+}
+```
 		
 		
 type属性和各属性简介
