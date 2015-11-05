@@ -50,7 +50,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 /**
  * @author WeAthFolD
  */
-@Mod(modid = "modular-equipment", name = "ModularEquipment", version = "0.11")
+@Mod(modid = "modular-equipment", name = "ModularEquipment", version = "0.12")
 public class ModularEquipment {
 	
 	public static final Logger log = LogManager.getLogger("ModularEquipment");
@@ -115,8 +115,8 @@ public class ModularEquipment {
 				case "armor":
 					tab = CreativeTabs.tabCombat;
 					for(int i = 0; i < 4; ++i) {
-						String texture = p.texture == null ? p.texture : p.name;
-						String armorTexture = p.armorTexture == null ? p.armorTexture : p.name;
+						String texture = p.texture == null ? p.name : p.texture;
+						String armorTexture = p.armorTexture == null ? p.name : p.armorTexture;
 						CustomArmor ca = new CustomArmor(armorMat(p.armorClass), texture, armorTexture, i);
 						toreg.add(ca);
 					}
