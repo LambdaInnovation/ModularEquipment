@@ -8,7 +8,7 @@ import org.apache.logging.log4j.{LogManager, Logger}
 @Mod(modid = "ModularEquipment", name = "ModularEquipment", version = ModularEquipment.version, modLanguage = "scala")
 object ModularEquipment {
 
-  val log = LogManager.getLogger("AcademyCraft")
+  val log = LogManager.getLogger("ModularEquipment")
 
   val debug = true
 
