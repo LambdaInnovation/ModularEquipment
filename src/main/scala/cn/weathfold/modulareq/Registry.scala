@@ -41,6 +41,10 @@ object Registry {
     }
   }
 
+  def addTaskOfType(itemType: String, name: String, fn: TaskApply, priority: Int = 0) = {
+    addTask(name, fn, priority, _ == itemType)
+  }
+
   /**
     * Adds a task to be performed on some item types.
     * @param name Name of the task
@@ -69,7 +73,7 @@ object Registry {
     private var tasks: List[Task] = Nil
 
     def addTask(node: Task): Unit = {
-      tasks = node :: tasks sortBy (_.priority)
+      tasks = node :: tasks sortBy (- _.priority)
     }
 
     def construct(data: Map[String, Any]): Item = {
