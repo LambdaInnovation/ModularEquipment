@@ -12,10 +12,10 @@ class MEClientProxy extends MEServerProxy {
 
     def getTransform(data: Map[String, Any]): Transform = {
       var scale = 1.0f
-      var offset = new Vector(0f, 0f, 0f)
+      var offset = Vector(0f, 0f, 0f)
       data.foreach({
-        case ("scale", s: Double) => scale = s
-        case ("transform", t: List[Double]) => offset = new Vector[Float](t(0).toFloat, t(1).toFloat, t(2).toFloat)
+        case ("scale", s: Double) => scale = s.toFloat
+        case ("transform", t: List[Double]) => offset = Vector(t(0).toFloat, t(1).toFloat, t(2).toFloat)
       })
       new Transform(scale, offset)
     }

@@ -9,7 +9,7 @@ import net.minecraftforge.client.IItemRenderer.{ItemRendererHelper, ItemRenderTy
 
 import org.lwjgl.opengl.GL11._
 
-class Transform(val scale: Float = 1.0f, val offset: Vector[Float] = new Vector[Float](3)) {
+class Transform(val scale: Float = 1.0f, val offset: Vector[Float] = Vector(0, 0, 0)) {
 
   def transform() = {
     glTranslatef(offset(0), offset(1), offset(2))
