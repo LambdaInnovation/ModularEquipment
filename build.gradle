@@ -15,6 +15,7 @@ buildscript {
     }
 }
 
+apply plugin: 'scala'
 apply plugin: 'forge'
 
 sourceCompatibility = 1.7
@@ -43,6 +44,12 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.java
+    from sourceSets.main.scala
+    classifier = 'sources'
 }
 
 tasks.withType(JavaCompile) {
