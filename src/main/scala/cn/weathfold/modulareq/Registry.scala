@@ -25,7 +25,7 @@ object Registry {
     }
   }
 
-  type ItemConstructor = (Map[String, Any]) => Item
+  type ItemConstructor = Map[String, Any] => Item
   type TaskApply = (Item, Map[String, Any], Status) => Boolean
 
   /**
@@ -79,7 +79,8 @@ object Registry {
     def construct(data: Map[String, Any]): Item = {
       val item: Item = ctor(data)
       val status = new Status
-      tasks.filter(x => x.fn(item, data, status)) foreach (x => status.markExec(x.name))
+      tasks.filter(x => if(!status.isExecuted(x.name)) x.fn(item, data, status) else false) foreach
+        (x => status.markExec(x.name))
 
       item
     }

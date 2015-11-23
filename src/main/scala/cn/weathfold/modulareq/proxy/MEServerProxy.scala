@@ -1,12 +1,18 @@
 package cn.weathfold.modulareq.proxy
 
+import java.lang.reflect.Constructor
+
 import cn.weathfold.modulareq.Registry
+import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.creativetab.CreativeTabs
-import net.minecraft.item.Item
+import net.minecraft.item.Item.ToolMaterial
+import net.minecraft.item.{ItemPickaxe, ItemSpade, ItemSword, Item}
 
 import scala.Option
 
 class MEServerProxy {
+
+  private class MyPickaxe(val mat: ToolMaterial) extends ItemPickaxe(mat) {}
 
   val creativeTabs: Map[String, CreativeTabs] = Map (
     "block" -> CreativeTabs.tabBlock,
@@ -21,10 +27,24 @@ class MEServerProxy {
     "materials" -> CreativeTabs.tabMaterials
     )
 
+  private def toolMat(name: String): ToolMaterial = {
+    name match {
+      case "wood" => ToolMaterial.WOOD
+      case "stone" => ToolMaterial.STONE
+      case "iron" => ToolMaterial.IRON
+      case "emerald" => ToolMaterial.EMERALD
+      case "diamond" => ToolMaterial.EMERALD
+      case "gold" => ToolMaterial.GOLD
+    }
+  }
+
   // Common tasks goes here.
 
   def preInit() = {
     // Define types
+    Registry.defineType("sword", (data) => new ItemSword(toolMat(data("toolClass").asInstanceOf[String])))
+    Registry.defineType("shovel", (data) => new ItemSpade(toolMat(data("toolClass").asInstanceOf[String])))
+    Registry.defineType("pickaxe", (data) => { new MyPickaxe(toolMat(data("toolClass").asInstanceOf[String])) })
 
     // CreativeTab task
     Registry.addTask("CreativeTab", (item, data, status) => {
@@ -36,6 +56,12 @@ class MEServerProxy {
         case _ => false
       }
     }, 1)
+
+    // Reg task
+    Registry.addTask("Register", (item, data, status) => {
+      GameRegistry.registerItem(item, data("name").asInstanceOf[String])
+      true
+    }, -1)
   }
 
 }
