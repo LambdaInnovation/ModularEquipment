@@ -27,15 +27,16 @@ object Registry {
 
   type ItemConstructor = Map[String, Any] => Item
   type TaskApply = (Item, Map[String, Any], Status) => Boolean
+  type Preprocessor = Map[String, Any] => List[Map[String, Any]]
 
   /**
     * Define a item type with given constructor.
     */
-  def defineType(name: String, x: ItemConstructor) = {
+  def defineType(name: String, x: ItemConstructor, p: Preprocessor = x => List(x)) = {
     if (typeActions.contains(name)) {
       error("Type with name " + name + " already exists")
     } else {
-      val action = new TypeAction(name, x)
+      val action = new TypeAction(name, x, p)
       typeActions = typeActions updated (name, action)
       allTasks.filter(_.typeFilter(action.name)).foreach(action.addTask)
     }
@@ -58,6 +59,18 @@ object Registry {
     typeActions.values.filter(x => typeFilter(x.name)).foreach(_.addTask(node))
   }
 
+  /**
+    * Construct the given set of data object into items.
+    * @param list The list of data object
+    */
+  def construct(list: List[Map[String, Any]]) = {
+    list.foreach(rawData => {
+      val itype = rawData("type").asInstanceOf[String]
+      val action = typeActions(itype)
+      action.preprocessor(rawData).foreach(action.construct)
+    })
+  }
+
   private var allTasks = List[Task]()
 
   private var typeActions : Map[String, TypeAction] = Map() withDefaultValue
@@ -68,7 +81,7 @@ object Registry {
   private class Task(val name: String, val fn : TaskApply,
                      val priority: Int, val typeFilter: String => Boolean)
 
-  private class TypeAction(val name: String, val ctor: ItemConstructor) {
+  private class TypeAction(val name: String, val ctor: ItemConstructor, val preprocessor: Preprocessor) {
 
     private var tasks: List[Task] = Nil
 

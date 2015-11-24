@@ -5,6 +5,8 @@ import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.{FMLPostInitializationEvent, FMLInitializationEvent, FMLPreInitializationEvent}
 import org.apache.logging.log4j.{LogManager, Logger}
 
+import scala.util.parsing.json.JSON
+
 @Mod(modid = "ModularEquipment", name = "ModularEquipment", version = ModularEquipment.version, modLanguage = "scala")
 object ModularEquipment {
 
@@ -16,7 +18,7 @@ object ModularEquipment {
 
   @EventHandler
   def preInit(event: FMLPreInitializationEvent) = {
-
+    val list = JSON.parseFull("[]").get.asInstanceOf[List[Map[String, Any]]]
   }
 
   @EventHandler
