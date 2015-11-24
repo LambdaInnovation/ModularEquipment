@@ -1,8 +1,12 @@
 package cn.weathfold.modulareq
 
-import cpw.mods.fml.common.Mod
+import java.io.FileReader
+
+import cn.weathfold.modulareq.proxy.MEServerProxy
+import cpw.mods.fml.common.{SidedProxy, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.{FMLPostInitializationEvent, FMLInitializationEvent, FMLPreInitializationEvent}
+import org.apache.commons.io.IOUtils
 import org.apache.logging.log4j.{LogManager, Logger}
 
 import scala.util.parsing.json.JSON
@@ -16,9 +20,21 @@ object ModularEquipment {
 
   final val version = "0.2_dev"
 
+  @SidedProxy(clientSide = "cn.weathfold.modulareq.proxy.MEClientProxy",
+    serverSide = "cn.weathfold.modulareq.proxy.MEServerProxy")
+  var proxy: MEServerProxy = null
+
   @EventHandler
   def preInit(event: FMLPreInitializationEvent) = {
-    val list = JSON.parseFull("[]").get.asInstanceOf[List[Map[String, Any]]]
+    proxy.preInit()
+
+    val str = IOUtils.toString(new FileReader(event.getSuggestedConfigurationFile))
+    val list = JSON.parseFull(str) match {
+      case Some(x: List[Map[String, Any]]) => x
+      case _ => throw new RuntimeException("Invalid json string format")
+    }
+
+    Registry.construct(list)
   }
 
   @EventHandler

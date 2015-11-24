@@ -46,6 +46,7 @@ class MEClientProxy extends MEServerProxy {
     Registry.addTask("Icon", (item, data, status) => {
       val icon: String = (if(data("icon") == null) data("name") else data("icon")).asInstanceOf[String]
       item.setTextureName(icon)
+      true
     })
   }
 

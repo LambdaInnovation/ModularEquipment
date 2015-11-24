@@ -2,7 +2,6 @@ package cn.weathfold.modulareq.proxy
 
 import java.lang.reflect.Constructor
 
-import cn.weathfold.modulareq.DelegateClass.CustomArmor
 import cn.weathfold.modulareq.Registry
 import cpw.mods.fml.common.registry.GameRegistry
 import net.minecraft.creativetab.CreativeTabs
@@ -20,8 +19,8 @@ class MEServerProxy {
   private class MyAxe(val mat: ToolMaterial) extends ItemAxe(mat)
 
   private class CustomArmor(val mat: ArmorMaterial, val name: String, val icon: String,
-                    val texture: String, val armorType: Int)
-    extends ItemArmor(mat, 0, armorType) {
+                    val texture: String, val _armorType: Int)
+    extends ItemArmor(mat, 0, _armorType) {
 
     setTextureName(icon + "_" + armorType)
 
@@ -83,7 +82,7 @@ class MEServerProxy {
 
       new CustomArmor(armorMatFromData(data), name, icon, texture, armorType)
       },
-      element => (1 until 4).map(x => element updated ("armorType", x))
+      element => (1 until 4).map(x => element updated ("armorType", x)).toList
     )
 
     // CreativeTab task

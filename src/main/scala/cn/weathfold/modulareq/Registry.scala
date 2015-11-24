@@ -74,9 +74,7 @@ object Registry {
   private var allTasks = List[Task]()
 
   private var typeActions : Map[String, TypeAction] = Map() withDefaultValue
-    new TypeAction("undefined", m => {
-      error("Undefined item type " + m("type"))
-    })
+    new TypeAction("undefined", m => null, d => throw new RuntimeException("Undefined item type"))
 
   private class Task(val name: String, val fn : TaskApply,
                      val priority: Int, val typeFilter: String => Boolean)
